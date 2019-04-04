@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+<!--cfgs target class   -->
+<bean id="target" class="com.manash.target.ArithematicsOperations"/>
+<!-- cfgs advice class -->
+<bean id="advice" class="com.manash.advice.PerformanceMonitoring"/> 
+<!-- cfgs Advisor class -->
+<bean id="advisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+  <property name="advice" ref="advice"/>
+  <property name="mappedNames">
+    <array>
+       <value>add</value>
+       <value>mul</value>
+       <value>sub</value>
+    </array>
+  </property>
+</bean>
+<!-- cfgs proxyFactoryBean -->
+<bean id="pfb" class="org.springframework.aop.framework.ProxyFactoryBean">
+   <property name="target" ref="target"/>
+   <property name="interceptorNames">
+     <array>
+        <value>advisor</value>
+     </array>
+   </property>
+</bean>
+
+
+</beans>

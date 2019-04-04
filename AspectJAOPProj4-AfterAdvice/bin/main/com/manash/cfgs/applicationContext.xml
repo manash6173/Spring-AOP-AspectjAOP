@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+<!-- cfg target class -->
+<bean id="target" class="com.manash.target.ShoppingStore"/>
+<!-- cfg advice class -->
+<bean id="cuponAdvice" class="com.manash.aspects.AfterAdvice_CuponDiscount"/>
+<!-- Enable AOP -->
+<aop:config>
+    <aop:pointcut id="ptc" expression="execution(float com.manash.target.ShoppingStore.shoppingBillAmount(..))" />
+    <!-- config aspects -->
+    <aop:aspect id="cuponAspect" ref="cuponAdvice">
+        <aop:after-returning method="cuponDiscount" pointcut-ref="ptc" returning="billAmount"/>
+    </aop:aspect>
+</aop:config>
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+<!-- cfg target class -->
+<bean id="target" class="com.manash.target.BankService"/>
+<!-- cfgs advice class -->
+<bean id="pmAdvice" class="com.manash.aspects.PerformanceMonitoringAroundAdvice"/>
+<bean id="caching" class="com.manash.aspects.CachingAroundAdvice"/>
+<bean id="rebate" class="com.manash.aspects.RebateAdvice"/>
+<!-- enable AspectsjAOP -->
+<aop:config>
+   <!-- cfg performance Monitoring -->
+    <aop:pointcut expression="execution(float com.manash.target.BankService.calsCompoundIntAmt(..))" id="ptc"/> 
+    <aop:pointcut expression="execution(float com.manash.target.BankService.calsSimpleIntAmt(..))" id="ptc1"/> 
+    <aop:aspect id="pmAspects" ref="pmAdvice" order="1">
+        <aop:around method="monitor" pointcut-ref="ptc"/>
+        <aop:around method="monitor" pointcut-ref="ptc1"/>
+    </aop:aspect>
+    <!-- cfg cache Advice -->
+    <aop:aspect id="cacheAspects" ref="caching" order="0">
+        <aop:around method="caching" pointcut="execution(float com.manash.target.BankService.calsSimpleIntAmt(..))"/>
+    </aop:aspect>
+    <!-- cfg Caching Advice -->
+    <aop:aspect id="rebateAspects" ref="rebate">
+       <aop:around method="rebate" pointcut-ref="ptc"/>
+       <aop:around method="rebate" pointcut-ref="ptc1"/>
+    </aop:aspect>
+    
+</aop:config>
+</beans>

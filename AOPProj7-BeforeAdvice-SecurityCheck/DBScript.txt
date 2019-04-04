@@ -1,0 +1,22 @@
+SQL> select * from userList;
+
+USERN      PWD
+---------- ----------
+raja       rani
+king       kingdom
+
+SQL> select * from BankAccount;
+
+     ACCNO NAME          BALANCE
+---------- ---------- ----------
+      1001 raja             4000
+      2001 ramesh           2000
+      3001 rani            12000
+      4001 rajesh          10000
+
+SQL> desc bankAccount;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ACCNO                                     NOT NULL NUMBER(10)
+ NAME                                               VARCHAR2(10)
+ BALANCE                                            NUMBER(10,2)

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+<!-- configure target class -->
+<bean id="bankService" class="com.manash.target.BankService"/>
+    <!--configure aspect class  -->
+<bean id="pmAdvice" class="com.manash.aspects.PerformingMonitoringAdvice"/>
+<bean id="logAdvice" class="com.manash.aspects.LogAroundAdvice"/>
+<bean id="cacheAdvice" class="com.manash.aspects.CacheAdvice"/>
+<!-- configure proxyfactory bean -->    
+
+<bean id="pfb" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" ref="bankService"/>
+    <property name="interceptorNames">
+         <array>
+              <value>cacheAdvice</value>
+              <value>logAdvice</value>
+               <value>pmAdvice</value>
+         </array>
+    </property>
+</bean>
+</beans>
